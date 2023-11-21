@@ -1,5 +1,5 @@
 # 3D XRay Viewer
-Software Rendered 3D Model Viewer made in python.
+Software Rendered 3D Model XRay Viewer made in Python.
 
 ![](Model-Spinning.gif)
 
