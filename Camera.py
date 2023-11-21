@@ -17,6 +17,45 @@ class Camera:
         self.nearPlane = 0.1
         self.farPlane = 100
 
+        self.movementSpeed = 0.2
+        self.rotationSpeed = 0.05
+
+    def Control(self):
+        key = pg.key.get_pressed()
+        if key[pg.K_a]:
+            self.position -= self.right * self.movementSpeed
+        if key[pg.K_d]:
+            self.position += self.right * self.movementSpeed
+        if key[pg.K_w]:
+            self.position += self.forward * self.movementSpeed
+        if key[pg.K_s]:
+            self.position -= self.forward * self.movementSpeed
+        if key[pg.K_q]:
+            self.position += self.up * self.movementSpeed
+        if key[pg.K_e]:
+            self.position -= self.up * self.movementSpeed
+
+        if key[pg.K_LEFT]:
+            self.CameraYaw(-self.rotationSpeed)
+        if key[pg.K_RIGHT]:
+            self.CameraYaw(self.rotationSpeed)
+        if key[pg.K_UP]:
+            self.CameraPitch(-self.rotationSpeed)
+        if key[pg.K_DOWN]:
+            self.CameraPitch(self.rotationSpeed)
+
+    def CameraYaw(self, angle):
+        rotation = RotateY(angle)
+        self.forward = self.forward @ rotation
+        self.right = self.right @ rotation
+        self.up = self.up @ rotation
+        
+    def CameraPitch(self, angle):
+        rotation = RotateX(angle)
+        self.forward = self.forward @ rotation
+        self.right = self.right @ rotation
+        self.up = self.up @ rotation
+
     def TranslationMatrix(self):
         x, y, z, w = self.position
         return np.array([

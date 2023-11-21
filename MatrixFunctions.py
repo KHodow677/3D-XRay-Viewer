@@ -20,13 +20,13 @@ def RotateY(angle):
     return np.array([
         [math.cos(angle), 0, -math.sin(angle), 0],
         [0, 1, 0, 0],
-        [math.sin(angle), 0, -math.cos(angle), 0],
+        [math.sin(angle), 0, math.cos(angle), 0],
         [0, 0, 0, 1]])
 
 def RotateZ(angle):
     return np.array([
         [math.cos(angle), math.sin(angle), 0, 0],
-        [math.sin(angle), math.cos(angle), 0, 0],
+        [-math.sin(angle), math.cos(angle), 0, 0],
         [0, 0, 1, 0],
         [0, 0, 0, 1]])
 

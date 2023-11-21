@@ -1,5 +1,6 @@
 from Object3D import *
 import pygame as pg
+import math
 from Camera import *
 from Projection import *
 
@@ -8,17 +9,28 @@ class SoftwareRenderer:
         pg.init()
         self.RES = self.WIDTH, self.HEIGHT = 1280, 720
         self.H_WIDTH, self.H_HEIGHT = self.WIDTH // 2, self. HEIGHT // 2
-        self.FPS = 60
+        self.FPS = 120
         self.screen = pg.display.set_mode(self.RES)
         self.clock = pg.time.Clock()
         self.CreateObject()
     
     def CreateObject(self):
-        self.camera = Camera(self, [0.5, 1, -4])
+        self.camera = Camera(self, [0, 2, -10])
         self.projection = Projection(self)
-        self.object = Object3D(self)
-        self.object.Translate([0.2, 0.4, 0.2])
-        self.object.RotateY(math.pi / 6)
+        self.object = self.LoadObjectFromFile('wood-house.obj')
+        self.object.RotateY(math.pi / 2)
+        self.object.move = False
+
+    def LoadObjectFromFile(self, filename):
+        vertices, faces = [], []
+        with open(filename) as file:
+            for line in file:
+                if line.startswith('v '):
+                    vertices.append([float(i) for i in line.split()[1:]] + [1])
+                elif line.startswith('f'):
+                    fileFaces = line.split()[1:]
+                    faces.append([int(face.split('/')[0]) - 1 for face in fileFaces])
+        return Object3D(self, vertices, faces)
 
     def Draw(self):
         self.screen.fill(pg.Color('black'))
@@ -27,6 +39,7 @@ class SoftwareRenderer:
     def Run(self):
         while True:
             self.Draw()
+            self.camera.Control()
             [exit() for i in pg.event.get() if i.type == pg.QUIT]
             pg.display.set_caption(str(self.clock.get_fps()))
             pg.display.flip()
