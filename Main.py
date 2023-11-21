@@ -1,5 +1,7 @@
 from Object3D import *
 import pygame as pg
+from Camera import *
+from Projection import *
 
 class SoftwareRenderer:
     def __init__(self):
@@ -12,10 +14,15 @@ class SoftwareRenderer:
         self.CreateObject()
     
     def CreateObject(self):
+        self.camera = Camera(self, [0.5, 1, -4])
+        self.projection = Projection(self)
         self.object = Object3D(self)
+        self.object.Translate([0.2, 0.4, 0.2])
+        self.object.RotateY(math.pi / 6)
 
     def Draw(self):
-        self.screen.fill(pg.Color('darkslategray'))
+        self.screen.fill(pg.Color('black'))
+        self.object.Draw()
 
     def Run(self):
         while True:
