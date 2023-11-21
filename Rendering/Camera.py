@@ -12,7 +12,7 @@ class Camera:
         self.up = np.array([0, 1, 0, 1])
         self.right = np.array([1, 0, 0, 1])
         self.hFOV = math.pi / 3
-        self.vFOV = self.hFOV * (renderer.HEIGHT/ renderer.WIDTH)
+        self.vFOV = self.hFOV * (renderer.height/ renderer.width)
         
         self.nearPlane = 0.1
         self.farPlane = 100

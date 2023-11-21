@@ -7,10 +7,10 @@ from Rendering.Projection import *
 class SoftwareRenderer:
     def __init__(self):
         pg.init()
-        self.RES = self.WIDTH, self.HEIGHT = 1920, 1080
-        self.H_WIDTH, self.H_HEIGHT = self.WIDTH // 2, self. HEIGHT // 2
-        self.FPS = 60
-        self.screen = pg.display.set_mode(self.RES)
+        self.res = self.width, self.height = 1280, 720
+        self.hWidth, self.hHeight = self.width // 2, self.height // 2
+        self.fps = 60
+        self.screen = pg.display.set_mode(self.res)
         self.clock = pg.time.Clock()
         self.CreateObject()
     
@@ -42,7 +42,7 @@ class SoftwareRenderer:
             [exit() for i in pg.event.get() if i.type == pg.QUIT]
             pg.display.set_caption(str(self.clock.get_fps()))
             pg.display.flip()
-            self.clock.tick(self.FPS)
+            self.clock.tick(self.fps)
 
 if __name__ == '__main__':
     app = SoftwareRenderer()

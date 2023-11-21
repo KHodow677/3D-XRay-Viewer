@@ -21,7 +21,7 @@ class Projection:
             [0, 0, m32, 0]
         ])
 
-        HW, HH = renderer.H_WIDTH, renderer.H_HEIGHT
+        HW, HH = renderer.hWidth, renderer.hHeight
         self.toScreenMatrix = np.array([
             [HW, 0, 0, 0],
             [0, -HH, 0, 0],

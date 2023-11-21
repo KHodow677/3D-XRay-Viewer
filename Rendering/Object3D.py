@@ -36,12 +36,12 @@ class Object3D:
         for index, colorFace in enumerate(self.colorFaces):
             color, face = colorFace
             polygon = vertices[face]
-            if not ANY(polygon, self.renderer.H_WIDTH, self.renderer.H_HEIGHT):
+            if not ANY(polygon, self.renderer.hWidth, self.renderer.hHeight):
                 pg.draw.polygon(self.renderer.screen, color, polygon, 1)
 
         if self.drawVertices:
             for vertex in vertices:
-                if not ANY(vertex, self.renderer.H_WIDTH, self.renderer.H_HEIGHT):
+                if not ANY(vertex, self.renderer.hWidth, self.renderer.hHeight):
                     pg.draw.circle(self.renderer.screen, pg.Color('white'), vertex, 2)
 
     def Translate(self, pos):
