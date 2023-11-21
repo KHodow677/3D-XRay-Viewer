@@ -17,6 +17,10 @@ class Camera:
         self.nearPlane = 0.1
         self.farPlane = 100
 
+        self.anglePitch = 0
+        self.angleYaw = 0
+        self.angleRoll = 0
+
         self.movementSpeed = 0.2
         self.rotationSpeed = 0.05
 
@@ -45,16 +49,22 @@ class Camera:
             self.CameraPitch(self.rotationSpeed)
 
     def CameraYaw(self, angle):
-        rotation = RotateY(angle)
-        self.forward = self.forward @ rotation
-        self.right = self.right @ rotation
-        self.up = self.up @ rotation
-        
+        self.angleYaw += angle
+
     def CameraPitch(self, angle):
-        rotation = RotateX(angle)
-        self.forward = self.forward @ rotation
-        self.right = self.right @ rotation
-        self.up = self.up @ rotation
+        self.anglePitch += angle
+
+    def AxesIdentity(self):
+        self.forward = np.array([0, 0, 1, 1])
+        self.up = np.array([0, 1, 0, 1])
+        self.right = np.array([1, 0, 0, 1])
+
+    def UpdateCameraAxes(self):
+        rotate = RotateX(self.anglePitch) @ RotateY(self.angleYaw)
+        self.AxesIdentity()
+        self.forward = self.forward @ rotate
+        self.right = self.right @ rotate
+        self.up = self.up @ rotate
 
     def TranslationMatrix(self):
         x, y, z, w = self.position
@@ -75,5 +85,6 @@ class Camera:
             [0, 0, 0, 1]])
     
     def CameraMatrix(self):
+        self.UpdateCameraAxes()
         return self.TranslationMatrix() @ self.RotationMatrix()
 

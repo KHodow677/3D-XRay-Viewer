@@ -9,7 +9,7 @@ class SoftwareRenderer:
         pg.init()
         self.RES = self.WIDTH, self.HEIGHT = 1280, 720
         self.H_WIDTH, self.H_HEIGHT = self.WIDTH // 2, self. HEIGHT // 2
-        self.FPS = 120
+        self.FPS = 60
         self.screen = pg.display.set_mode(self.RES)
         self.clock = pg.time.Clock()
         self.CreateObject()
@@ -19,7 +19,6 @@ class SoftwareRenderer:
         self.projection = Projection(self)
         self.object = self.LoadObjectFromFile('wood-house.obj')
         self.object.RotateY(math.pi / 2)
-        self.object.move = False
 
     def LoadObjectFromFile(self, filename):
         vertices, faces = [], []

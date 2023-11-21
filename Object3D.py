@@ -1,5 +1,10 @@
 import pygame as pg
 from MatrixFunctions import *
+from numba import njit
+
+@njit(fastmath=True)
+def ANY(array, a, b):
+    return np.any((array == a) | (array == b))
 
 class Object3D:
     def __init__(self, renderer, vertices, faces):
@@ -10,11 +15,10 @@ class Object3D:
         self.font = pg.font.SysFont('Arial', 30, bold=True)
         self.colorFaces = [(pg.Color('white'), face) for face in self.faces]
         self.move, self.drawVertices = True, False
-        self.label = ''
 
     def Movement(self):
         if self.move:
-            self.RotateY(pg.time.get_ticks() % 0.005)
+            self.RotateY(pg.time.get_ticks() % 0.01)
 
     def Draw(self):
         self.ScreenProjection()
@@ -25,20 +29,20 @@ class Object3D:
         vertices = vertices @ self.renderer.projection.projectionMatrix
 
         vertices /= vertices[:, -1].reshape(-1, 1)
+        vertices[(vertices > 2) | (vertices < -2)] = 0
         vertices = vertices @ self.renderer.projection.toScreenMatrix
         vertices = vertices[:, :2]
 
         for index, colorFace in enumerate(self.colorFaces):
             color, face = colorFace
             polygon = vertices[face]
-            pg.draw.polygon(self.renderer.screen, color, polygon, 1)
-            if self.label:
-                text = self.font.render(self.label[index], True, pg.Color('white'))
-                self.renderer.screen.blit(text, polygon[-1])
+            if not ANY(polygon, self.renderer.H_WIDTH, self.renderer.H_HEIGHT):
+                pg.draw.polygon(self.renderer.screen, color, polygon, 1)
 
         if self.drawVertices:
             for vertex in vertices:
-                pg.draw.circle(self.renderer.screen, pg.Color('white'), vertex, 2)
+                if not ANY(vertex, self.renderer.H_WIDTH, self.renderer.H_HEIGHT):
+                    pg.draw.circle(self.renderer.screen, pg.Color('white'), vertex, 2)
 
     def Translate(self, pos):
         self.vertices = self.vertices @ Translate(pos)
@@ -54,14 +58,4 @@ class Object3D:
 
     def RotateZ(self, angle):
         self.vertices = self.vertices @ RotateZ(angle)
-
-class Axes(Object3D):
-    def __init__(self, renderer):
-        super().__init__(renderer)
-        self.vertices = np.array([(0, 0, 0, 1), (1, 0, 0, 1), (0, 1, 0, 1), (0, 0, 1, 1)])
-        self.faces = np.array([(0, 1), (0, 2), (0, 3)])
-        self.colors = [pg.Color('red'), pg.Color('green'), pg.Color('blue')]
-        self.colorFaces = [(color,face) for color, face in zip(self.colors, self.faces)]
-        self.drawVertices = False
-        self.label = 'XYZ'
 
