@@ -1,8 +1,8 @@
-from Object3D import *
+from Rendering.Object3D import *
 import pygame as pg
 import math
-from Camera import *
-from Projection import *
+from Rendering.Camera import *
+from Rendering.Projection import *
 
 class SoftwareRenderer:
     def __init__(self):

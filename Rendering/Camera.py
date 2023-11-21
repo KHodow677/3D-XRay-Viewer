@@ -1,7 +1,7 @@
 from numpy import who
 import pygame as pg
 import math
-from MatrixFunctions import *
+from Rendering.MatrixFunctions import *
 
 class Camera:
     def __init__(self, renderer, position) -> None:

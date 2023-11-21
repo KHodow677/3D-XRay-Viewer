@@ -1,5 +1,5 @@
 import pygame as pg
-from MatrixFunctions import *
+from Rendering.MatrixFunctions import *
 from numba import njit
 
 @njit(fastmath=True)
