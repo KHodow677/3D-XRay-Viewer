@@ -9,6 +9,6 @@ Software Rendered 3D Model Viewer made in python.
 - **`UP / DOWN`** - Camera Pitch
   - Description: Tilts the camera up and down in direction of the key
   
-- **`LEFT / RIGHT`** - Redo
+- **`LEFT / RIGHT`** - Camera Yaw
   - Description: Tilts the camera left and right in direction of the key
   
